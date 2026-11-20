@@ -92,8 +92,8 @@ function App() {
 
   return <NavigationStack>
     <Form navigationTitle="活动转日历" navigationBarTitleDisplayMode="inline">
-      {!configKey && showSettings ? <Section header={<Text>DeepSeek 设置 · v0.1.4</Text>}
-        footer={<Text>{keySaved ? "已记住：密钥保存在本机系统钥匙串，下次自动读取。" : "只需设置一次。识别时会保存至本机系统钥匙串。请填好后再复制活动通知。"}</Text>}>
+      {!configKey && showSettings ? <Section header={<Text>DeepSeek 设置 · v0.1.5</Text>}
+        footer={<Text>{keySaved ? "已记住：密钥保存在本机，下次自动读取。" : "只需设置一次。填好后点一次按钮即可记住。请填好后再复制活动通知。"}</Text>}>
         <SecureField title="DeepSeek API Key" value={key} onChanged={value => {
           sessionKey = value.trim(); setKey(value); setKeySaved(false)
         }}
@@ -109,7 +109,7 @@ function App() {
         </Button>
         <Text>{status}</Text>
       </Section>
-      {configKey ? <Text foregroundStyle="secondary">已读取本机配置，无需再次填写 Key · v0.1.4</Text>
+      {configKey ? <Text foregroundStyle="secondary">已读取本机配置，无需再次填写 Key · v0.1.5</Text>
         : <Button title={showSettings ? "收起 API 设置" : "API 设置"} disabled={busy} action={() => setShowSettings(!showSettings)} />}
       {preview ? <Section header={<Text>已读取的文字</Text>}><Text>{preview}</Text></Section> : null}
       {result ? <Section header={<Text>添加成功</Text>}>

@@ -12,11 +12,11 @@
 
 ## 1. 下载脚本，保存到手机文件
 
-[⬇️ 下载脚本 ActivityToCalendar-v0.1.6.scripting](./ActivityToCalendar-v0.1.6.scripting)
+复制下面这个链接，在手机 Safari 里打开，就会自动下载：
 
-保存文件的方式，因为本人手机苹果电脑华为，所以选择了最古朴的：先把文件发给文件传输助手，然后点击"用其他应用打开"，再点击"保存到文件"。
+https://github.com/Xykf-ya/activity-to-calendar/raw/main/ActivityToCalendar-v0.1.6.scripting
 
-（如果你直接在 iPhone 的 Safari 里点上面的下载链接，文件会自己存进"文件"App，这一步就省了。）
+这个时候文件已经自动下载到手机的"文件"App 里了。
 
 ## 2. 在 App Store 下载一个叫 Scripting 的软件
 

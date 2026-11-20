@@ -1,0 +1,13 @@
+# 本仓库只包含公开版（src/api-key.ts 为空）
+# 个人版包含真实密钥，永远不要提交
+*personal*
+*-personal-*
+
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 本地密钥，别提交
+*.key
+api-key.local.ts

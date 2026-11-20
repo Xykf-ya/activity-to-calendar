@@ -14,8 +14,6 @@
 
 [⬇️ 下载脚本 ActivityToCalendar-v0.1.6.scripting](./ActivityToCalendar-v0.1.6.scripting)
 
-历史版本在 [Releases](https://github.com/Xykf-ya/activity-to-calendar/releases) 里。
-
 保存文件的方式，因为本人手机苹果电脑华为，所以选择了最古朴的：先把文件发给文件传输助手，然后点击"用其他应用打开"，再点击"保存到文件"。
 
 （如果你直接在 iPhone 的 Safari 里点上面的下载链接，文件会自己存进"文件"App，这一步就省了。）

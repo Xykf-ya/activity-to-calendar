@@ -16,8 +16,6 @@
 
 历史版本在 [Releases](https://github.com/Xykf-ya/activity-to-calendar/releases) 里。
 
-如果之前没有充值过 deepseek，可以在 [platform.deepseek.com/usage](https://platform.deepseek.com/usage) 网站上充值并且获得 api key。可以先充一块钱试试水，我感觉一块钱至少可以用一两个月。
-
 保存文件的方式，因为本人手机苹果电脑华为，所以选择了最古朴的：先把文件发给文件传输助手，然后点击"用其他应用打开"，再点击"保存到文件"。
 
 （如果你直接在 iPhone 的 Safari 里点上面的下载链接，文件会自己存进"文件"App，这一步就省了。）
@@ -47,6 +45,8 @@
 ![打开脚本后的工具页面](images/step3-3.jpg)
 
 **第一次打开时，页面会让你填一次 DeepSeek API Key。** 填进输入框，点一下"保存 Key"，设置区会自动收起，之后就不用再管它了。
+
+如果之前没有充值过 deepseek，可以在 [platform.deepseek.com/usage](https://platform.deepseek.com/usage) 网站上充值并且获得 api key。可以先充一块钱试试水，我感觉一块钱至少可以用一两个月。
 
 **当你看到这个页面的时候，我们就已经配置成功了！** 你只需要复制一段活动通知，打开 Scripting，点击这个脚本，点击"粘贴并识别"，相应活动信息就会自动添加到系统日历里。
 

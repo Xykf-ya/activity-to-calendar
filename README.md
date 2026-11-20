@@ -10,9 +10,6 @@
 
 下载脚本 → 将文件保存至手机文件 → 在 Scripting 软件中导入脚本 → 在苹果快捷指令 App 中添加快捷指令
 
-> **不需要改代码，也不需要把 API Key 发给任何人。**
-> 从 0.1.5 版开始，Key 只要在导入后第一次打开时填一次，脚本会自己记住，以后不再问。
-
 ## 1. 下载脚本，保存到手机文件
 
 [⬇️ 下载脚本 ActivityToCalendar-v0.1.5.scripting](./ActivityToCalendar-v0.1.5.scripting)

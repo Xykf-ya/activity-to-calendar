@@ -12,7 +12,7 @@
 
 ## 1. 下载脚本，保存到手机文件
 
-[⬇️ 下载脚本 ActivityToCalendar-v0.1.5.scripting](./ActivityToCalendar-v0.1.5.scripting)
+[⬇️ 下载脚本 ActivityToCalendar-v0.1.6.scripting](./ActivityToCalendar-v0.1.6.scripting)
 
 历史版本在 [Releases](https://github.com/Xykf-ya/activity-to-calendar/releases) 里。
 
@@ -46,7 +46,7 @@
 
 ![打开脚本后的工具页面](images/step3-3.jpg)
 
-**第一次打开时，页面会让你填一次 DeepSeek API Key。** 填进输入框，然后点一次"粘贴并识别"——**必须点一次，Key 才会被保存下来**。之后就不会再问你了。
+**第一次打开时，页面会让你填一次 DeepSeek API Key。** 填进输入框，点一下"保存 Key"，设置区会自动收起，之后就不用再管它了。
 
 **当你看到这个页面的时候，我们就已经配置成功了！** 你只需要复制一段活动通知，打开 Scripting，点击这个脚本，点击"粘贴并识别"，相应活动信息就会自动添加到系统日历里。
 
@@ -106,6 +106,7 @@
 
 ## 版本说明
 
+- **0.1.6** —— 保存 Key 拆成独立按钮；API 设置收成一块，不再和主按钮混在一起
 - **0.1.5** —— Key 改为存在应用文档目录，修复"每次打开都要重新填 Key"的问题
 - **0.1.4** —— 界面细节调整
 

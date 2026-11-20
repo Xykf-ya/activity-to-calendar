@@ -45,14 +45,49 @@ function App() {
   const [key, setKey] = useState(sessionKey)
   const [manualText, setManualText] = useState("")
   const [busy, setBusy] = useState(false)
-  const [status, setStatus] = useState(keyLoadError || "复制活动通知，点一下就添加。")
+  const [status, setStatus] = useState(keyLoadError || (sessionKey
+    ? "复制活动通知，点一下上面的按钮就添加。"
+    : "第一次使用：在上面填入 DeepSeek API Key，点「保存 Key」。"))
   const [result, setResult] = useState<EventDraft | null>(null)
   const [keySaved, setKeySaved] = useState(!!sessionKey)
   const [preview, setPreview] = useState("")
   const [showSettings, setShowSettings] = useState(!sessionKey)
 
+  // 保存 Key 是一个独立动作，不再挂在"粘贴并识别"上。
+  function saveKey() {
+    const value = key.trim()
+    if (!value) { setStatus("请先填入 DeepSeek API Key。"); return }
+    try {
+      rememberKey(value)
+      sessionKey = value
+      setKeySaved(true)
+      setShowSettings(false)
+      setStatus("Key 已保存到本机，以后不用再填。复制活动通知，点「粘贴并识别」即可。")
+    } catch (error) {
+      setStatus(safeError(error, value))
+    }
+  }
+
+  function clearKey() {
+    try {
+      forgetKey()
+      sessionKey = ""
+      setKey("")
+      setKeySaved(false)
+      setShowSettings(true)
+      setStatus("已清除本机保存的 Key。")
+    } catch (error) {
+      setStatus(safeError(error, sessionKey))
+    }
+  }
+
   async function run() {
     if (busy) return
+    if (!sessionKey.trim()) {
+      setShowSettings(true)
+      setStatus("还没有可用的 Key，请先在上面填入并点「保存 Key」。")
+      return
+    }
     setBusy(true)
     setResult(null)
     setStatus("正在读取活动信息…")
@@ -65,17 +100,12 @@ function App() {
           catch { throw new UserError("无法读取剪贴板，请在 iPhone 设置中允许 Scripting 从其他 App 粘贴，或在下面输入原文。") }
           if (!text.trim()) throw new UserError("剪贴板没有文字。请先复制活动通知，再点击按钮。")
           if (text.trim() === sessionKey.trim() || /^sk-[\w-]+$/.test(text.trim())) {
-            throw new UserError("剪贴板里是 API Key，请先复制活动通知再点击。")
+            throw new UserError("剪贴板里是 API Key。请先复制一条活动通知，再点击。")
           }
           setPreview(text.slice(0, 400))
           return text
         },
         async text => {
-          stage = "保存密钥"
-          if (!sessionKey.trim()) throw new UserError("文字已粘贴。首次使用请填入 DeepSeek API Key，再点击按钮；以后会自动记住。")
-          // A phone-local configured key works without reading/writing Keychain.
-          if (!configKey) rememberKey(sessionKey)
-          setKeySaved(true)
           stage = "请求 DeepSeek"
           setStatus(`已读取 ${text.length} 字，正在识别活动…`)
           return recognize(text, sessionKey, (url, init) => nativeAPI("fetch")(url, init))
@@ -92,25 +122,31 @@ function App() {
 
   return <NavigationStack>
     <Form navigationTitle="活动转日历" navigationBarTitleDisplayMode="inline">
-      {!configKey && showSettings ? <Section header={<Text>DeepSeek 设置 · v0.1.5</Text>}
-        footer={<Text>{keySaved ? "已记住：密钥保存在本机，下次自动读取。" : "只需设置一次。填好后点一次按钮即可记住。请填好后再复制活动通知。"}</Text>}>
-        <SecureField title="DeepSeek API Key" value={key} onChanged={value => {
-          sessionKey = value.trim(); setKey(value); setKeySaved(false)
-        }}
+      {!keySaved || showSettings ? <Section
+        header={<Text>DeepSeek API Key</Text>}
+        footer={<Text>{keySaved
+          ? "已保存在本机，不会上传。要换 Key 直接改上面的内容再点保存。"
+          : "只填这一次。填好点「保存 Key」，之后就不用再管了。"}</Text>}>
+        <SecureField title="API Key" value={key} onChanged={setKey}
           prompt="sk-…" disabled={busy} autocorrectionDisabled textInputAutocapitalization="never" />
-        {keySaved ? <Button title="清除已保存的 Key" disabled={busy} action={() => {
-          try { forgetKey(); sessionKey = ""; setKey(""); setKeySaved(false); setStatus("已清除本机保存的 Key。") }
-          catch (error) { setStatus(safeError(error, sessionKey)) }
-        }} /> : null}
+        <Button title={keySaved ? "保存这个 Key" : "保存 Key"} disabled={busy || !key.trim()} action={saveKey} />
+        {keySaved ? <Button title="清除已保存的 Key" disabled={busy} action={clearKey} /> : null}
+        {keySaved ? <Button title="收起设置" disabled={busy} action={() => setShowSettings(false)} /> : null}
       </Section> : null}
-      <Section footer={<Text>点击后将文字发送至 DeepSeek 识别，并直接保存。</Text>}>
-        <Button action={run} disabled={busy} buttonStyle="borderedProminent" controlSize="large">
+
+      <Section footer={<Text>{keySaved
+        ? "点击后会把文字发到 DeepSeek 识别，并直接写入系统日历。"
+        : "填好并保存 Key 后，这个按钮才可用。"}</Text>}>
+        <Button action={run} disabled={busy || !keySaved} buttonStyle="borderedProminent" controlSize="large">
           <Text frame={{ maxWidth: "infinity", alignment: "center" }}>{busy ? "正在处理…" : "粘贴并识别"}</Text>
         </Button>
         <Text>{status}</Text>
       </Section>
-      {configKey ? <Text foregroundStyle="secondary">已读取本机配置，无需再次填写 Key · v0.1.5</Text>
-        : <Button title={showSettings ? "收起 API 设置" : "API 设置"} disabled={busy} action={() => setShowSettings(!showSettings)} />}
+
+      {!configKey && keySaved && !showSettings
+        ? <Button title="API 设置" disabled={busy} action={() => setShowSettings(true)} />
+        : null}
+
       {preview ? <Section header={<Text>已读取的文字</Text>}><Text>{preview}</Text></Section> : null}
       {result ? <Section header={<Text>添加成功</Text>}>
         <Text font="headline">{result.title}</Text>
